@@ -1,0 +1,124 @@
+set nocompatible
+source $VIMRUNTIME/vimrc_example.vim
+source $VIMRUNTIME/mswin.vim
+behave mswin
+
+set diffexpr=MyDiff()
+function MyDiff()
+  let opt = '-a --binary '
+  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  let arg1 = v:fname_in
+  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  let arg2 = v:fname_new
+  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  let arg3 = v:fname_out
+  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  let eq = ''
+  if $VIMRUNTIME =~ ' '
+    if &sh =~ '\<cmd'
+      let cmd = '""' . $VIMRUNTIME . '\diff"'
+      let eq = '"'
+    else
+      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    endif
+  else
+    let cmd = $VIMRUNTIME . '\diff'
+  endif
+  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+endfunction
+
+"remove hello screen
+set shortmess+=I
+
+"basic styles
+set gfn=Lucida_Console:h10:cRUSSIAN
+colorscheme desert
+"colorscheme darkblue
+"colorscheme jellybeans
+"colorscheme guardian
+"colorscheme jellybeans
+"set background=light
+"colorscheme solarized
+
+"show line numbers
+set number
+
+"removing tilde files
+set nobackup
+set nowritebackup
+
+cd $HOME
+
+"set shortcuts
+
+"set directory to filedir
+map <F3> :cd %:p:h<CR>
+"copy all
+nmap <F2> mzggVG<C-c>'z
+"move up/down in one line
+nmap j gj
+nmap k gk
+nnoremap <C-j> j
+nnoremap <C-k> k
+"open vimrc
+map <F4> :e $MYVIMRC<CR>
+
+set hidden "It makes vim work like every other multiple-file editor on the planet. You can have edited buffers that aren't visible in a window somewhere.
+
+"set filetypes
+map <F5> :set filetype=html<CR>
+map <F6> :set filetype=css<CR>
+map <F7> :set filetype=javascript<CR>
+
+"set to open every file in a new tab
+":au BufAdd,BufNewFile * nested tab sball
+
+"autosave on lost focus
+":au FocusLost * :wa
+
+"menu autocomplete
+set wildmenu
+
+"search configs
+set ignorecase
+set smartcase
+
+"set encodings
+set encoding=utf-8
+set fileencoding=utf-8
+
+"set window initial size
+set lines=36 columns=100
+
+"indentaion issues etc.
+set smartindent
+set tabstop=2
+set shiftwidth=2
+set expandtab
+
+
+"
+"Vundle and plugins begin here
+"
+filetype off
+set rtp+=$HOME/vimfiles/bundle/vundle/
+call vundle#rc()
+Bundle 'gmarik/vundle'
+filetype plugin indent on     " required!
+
+"colorschemes
+Bundle "altercation/vim-colors-solarized"
+
+"ctrlp
+Bundle "kien/ctrlp.vim"
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = ''
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
