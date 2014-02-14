@@ -15,38 +15,56 @@ module.exports = function(grunt) {
           files: [{
               expand: true,
               cwd: '<%=scssFolder%>', //current working dir
-              src: ['*.scss', '!_*.scss'], //sass files filter
+              src: ['*.scss'], //sass files filter
               dest: '<%=cssFolder%>', //destination folder
               ext: '.css' //destination extension
           }],
           options: {
-//              check: true, //should be false else the output is empty!!!
+              check: false, //should be false else the output is empty!!!
               style: 'expanded'
           }
         }
-      },  
+      },
+      replace: {
+          dist: {
+              options: {
+                  patterns: [
+                      {
+                          match: /\n*?\s*?-webkit-filter:.*?;/,
+                          replacement: ""
+                      }
+                  ]
+              },
+              files: [
+                  {expand: true, flatten: true, src: ['css/*.css'], dest: 'css/'}
+              ]
+          }
+      },
       autoprefixer: {
         dist: {
           options: {
-            browsers: ['last 2 versions', '> 1%', 'ie 8']
+            browsers: ['last 3 versions', '> 1%', 'ie 8']
           },
-//          files: {
-//            'css/test.css': 'css/test.css' //dest : source
-//          }
-          files: [{
-               expand: true,
-               cwd: '<%=cssFolder%>', //current working dir
-               src: ['*.css'], //css files filter
-               dest: '<%=cssFolder%>', //destination folder
-               ext: '.css' //destination extension
-          }]
+          files: {
+            'css/styles.css': 'css/styles.css' //dest : source
+          }
+//          files: [{
+//               expand: true,
+//               cwd: '<%=cssFolder%>', //current working dir
+//               src: ['*.css'], //css files filter
+//               dest: '<%=cssFolder%>', //destination folder
+//               ext: '.css' //destination extension
+//          }]
         }
-      },      
+      },
       watch: {
+        gruntfile: {
+            files: 'Gruntfile.js'
+        },
         dist: {
             files: ['<%=scssFolder%>/*.scss'],
             // tasks: ['sass']
-            tasks: ['sass', 'autoprefixer']
+            tasks: ['sass', 'autoprefixer', 'replace']
           }
      }
   });
@@ -55,8 +73,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-autoprefixer');
+  grunt.loadNpmTasks('grunt-replace');
 
   // Default task.
   grunt.registerTask('default', ['watch']);
+  grunt.registerTask('run', ['sass', 'autoprefixer', 'replace']);
 
 };
