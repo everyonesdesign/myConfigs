@@ -6,6 +6,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     cssFolder: 'css',
     scssFolder: 'scss',
+    jadeFolder: 'jade',
     builtFolder: 'built',
     sass: {                              // Task
         dist: {                            // Target
@@ -36,7 +37,7 @@ module.exports = function(grunt) {
                   ]
               },
               files: [
-                  {expand: true, flatten: true, src: ['css/*.css'], dest: 'css/'}
+                  {expand: true, flatten: true, src: ['<%=cssFolder%>/*.css'], dest: '<%=cssFolder%>/'}
               ]
           }
       },
@@ -46,7 +47,7 @@ module.exports = function(grunt) {
             browsers: ['last 3 versions', '> 1%', 'ie 8']
           },
           files: {
-            'css/styles.css': 'css/styles.css' //dest : source
+            'css/styles.css': '<%=cssFolder%>/styles.css' //dest : source
           }
 //          files: [{
 //               expand: true,
@@ -57,14 +58,28 @@ module.exports = function(grunt) {
 //          }]
         }
       },
+      jade: {
+          dist: {
+              options: {
+                  browsers: ['last 3 versions', '> 1%', 'ie 8']
+              },
+              files: [{
+                  expand: true,
+                  cwd: '<%=jadeFolder%>', //current working dir
+                  src: ['*.jade'], //sass files filter
+                  dest: '', //destination folder
+                  ext: '.html' //destination extension
+              }]
+          }
+      },
       watch: {
         gruntfile: {
             files: 'Gruntfile.js'
         },
         dist: {
-            files: ['<%=scssFolder%>/*.scss'],
+            files: ['<%=scssFolder%>/*.scss', '<%=jadeFolder%>/*.jade'],
             // tasks: ['sass']
-            tasks: ['sass', 'autoprefixer', 'replace']
+            tasks: ['sass', 'autoprefixer', 'replace', 'jade']
           }
      }
   });
@@ -74,9 +89,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-replace');
+  grunt.loadNpmTasks('grunt-contrib-jade');
 
   // Default task.
   grunt.registerTask('default', ['watch']);
-  grunt.registerTask('run', ['sass', 'autoprefixer', 'replace']);
+  grunt.registerTask('run', ['sass', 'autoprefixer', 'replace', 'jade']);
 
 };
