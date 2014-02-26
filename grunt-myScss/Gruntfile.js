@@ -16,7 +16,7 @@ module.exports = function(grunt) {
           files: [{
               expand: true,
               cwd: '<%=scssFolder%>', //current working dir
-              src: ['*.scss'], //sass files filter
+              src: ['*.scss', '!_*.scss'], //sass files filter
               dest: '<%=cssFolder%>', //destination folder
               ext: '.css' //destination extension
           }],
@@ -66,7 +66,7 @@ module.exports = function(grunt) {
               files: [{
                   expand: true,
                   cwd: '<%=jadeFolder%>', //current working dir
-                  src: ['*.jade'], //sass files filter
+                  src: ['*.jade', '!_*.jade'], //jade files filter
                   dest: '', //destination folder
                   ext: '.html' //destination extension
               }]
