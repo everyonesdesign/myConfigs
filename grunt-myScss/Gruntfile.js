@@ -61,7 +61,7 @@ module.exports = function(grunt) {
       jade: {
           dist: {
               options: {
-                  browsers: ['last 3 versions', '> 1%', 'ie 8']
+                  pretty: true
               },
               files: [{
                   expand: true,
@@ -77,7 +77,7 @@ module.exports = function(grunt) {
             files: 'Gruntfile.js'
         },
         dist: {
-            files: ['<%=scssFolder%>/*.scss', '<%=jadeFolder%>/*.jade'],
+            files: ['<%=scssFolder%>/*.scss', '<%=jadeFolder%>/**/*.jade'],
             // tasks: ['sass']
             tasks: ['sass', 'autoprefixer', 'replace', 'jade']
           }
