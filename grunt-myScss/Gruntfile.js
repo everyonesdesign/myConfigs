@@ -44,7 +44,7 @@ module.exports = function(grunt) {
       autoprefixer: {
         dist: {
           options: {
-            browsers: ['last 3 versions', '> 1%', 'ie 8']
+            browsers: ['last 3 versions', '> 1%', 'ie 9', 'Opera 12']
           },
           files: {
             'css/styles.css': '<%=cssFolder%>/styles.css' //dest : source
