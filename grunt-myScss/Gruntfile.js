@@ -4,15 +4,13 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    cssFolder: 'css',
-    scssFolder: 'scss',
-    jadeFolder: 'jade',
+    cssFolder: 'assets/css',
+    scssFolder: 'src/scss',
+    jadeFolder: 'src/jade',
+    typescriptFolder: 'src/ts',
     builtFolder: 'built',
     sass: {                              // Task
         dist: {                            // Target
-//          files: {
-//            'css/styles.css': 'scss/styles.scss' //dest : source
-//          },
           files: [{
               expand: true,
               cwd: '<%=scssFolder%>', //current working dir
@@ -47,15 +45,8 @@ module.exports = function(grunt) {
             browsers: ['last 3 versions', '> 1%', 'ie 9', 'Opera 12']
           },
           files: {
-            'css/styles.css': '<%=cssFolder%>/styles.css' //dest : source
+            '<%=cssFolder%>/main.css': '<%=cssFolder%>/main.css' //dest : source
           }
-//          files: [{
-//               expand: true,
-//               cwd: '<%=cssFolder%>', //current working dir
-//               src: ['*.css'], //css files filter
-//               dest: '<%=cssFolder%>', //destination folder
-//               ext: '.css' //destination extension
-//          }]
         }
       },
       jade: {
@@ -72,15 +63,43 @@ module.exports = function(grunt) {
               }]
           }
       },
+      typescript: {
+          base: {
+              src: ['<%=typescriptFolder%>/*.ts'],
+              dest: 'assets/js',
+              options: {
+                  module: 'amd', //or commonjs
+                  target: 'es5', //or es3
+                  basePath: '<%=typescriptFolder%>',
+                  sourceMap: false,
+                  declaration: false
+              }
+          }
+      },
       watch: {
         gruntfile: {
             files: 'Gruntfile.js'
         },
-        dist: {
-            files: ['<%=scssFolder%>/*.scss', '<%=jadeFolder%>/**/*.jade'],
+        main: {
+            files: ['<%=scssFolder%>/*.scss', '<%=jadeFolder%>/**/*.jade', '<%=typescriptFolder%>/**/*.ts'],
             // tasks: ['sass']
-            tasks: ['sass', 'autoprefixer', 'replace', 'jade']
-          }
+            tasks: ['sass', 'jade', 'typescript', 'autoprefixer', 'replace']
+        },
+        jade: {
+            files: ['<%=jadeFolder%>/**/*.jade'],
+            // tasks: ['sass']
+            tasks: ['sass', 'jade']
+        },
+        css: {
+            files: ['<%=scssFolder%>/*.scss'],
+            // tasks: ['sass']
+            tasks: ['sass', 'autoprefixer', 'replace']
+        },
+        ts: {
+            files: ['<%=typescriptFolder%>/*.ts'],
+            // tasks: ['sass']
+            tasks: ['typescript']
+        }
      }
   });
 
@@ -90,9 +109,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-replace');
   grunt.loadNpmTasks('grunt-contrib-jade');
+  grunt.loadNpmTasks('grunt-typescript');
 
   // Default task.
   grunt.registerTask('default', ['watch']);
-  grunt.registerTask('run', ['sass', 'autoprefixer', 'replace', 'jade']);
+  grunt.registerTask('run', ['sass', 'autoprefixer', 'jade', 'typescript', 'replace']);
 
 };
