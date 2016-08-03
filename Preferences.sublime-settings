@@ -34,16 +34,7 @@
 	],
 	"font_size": 12,
 	"ignored_packages":
-	[
-		"AutoFileName",
-		"BracketHighlighter",
-		"Color Highlighter",
-		"CSS",
-		"CSS Less(ish)",
-		"FileSystem Autocompletion",
-		"JSCS-Formatter",
-		"Unicode Character Highlighter"
-	],
+	[],
 	"rulers":
 	[
 		79
