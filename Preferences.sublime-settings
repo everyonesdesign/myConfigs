@@ -1,0 +1,53 @@
+{
+	"binary_file_patterns":
+	[
+		"dist/*",
+		"*/node_modules/*",
+		"node_modules/*",
+		"*.jpg",
+		"*.jpeg",
+		"*.png",
+		"*.gif",
+		"*.ttf",
+		"*.tga",
+		"*.dds",
+		"*.ico",
+		"*.eot",
+		"*.pdf",
+		"*.swf",
+		"*.jar",
+		"*.zip"
+	],
+	"color_scheme": "Packages/Colorsublime - Themes/LAZY.tmTheme",
+	"draw_white_space": "all",
+	"folder_exclude_patterns":
+	[
+		".svn",
+		".git",
+		".hg",
+		"CVS",
+		"coverage",
+		"gen",
+		"build",
+		"node_modules",
+		"__pycache__"
+	],
+	"font_size": 12,
+	"ignored_packages":
+	[
+		"AutoFileName",
+		"BracketHighlighter",
+		"Color Highlighter",
+		"CSS",
+		"CSS Less(ish)",
+		"FileSystem Autocompletion",
+		"JSCS-Formatter",
+		"Unicode Character Highlighter"
+	],
+	"rulers":
+	[
+		79
+	],
+	"save_on_focus_lost": true,
+	"trim_trailing_white_space_on_save": true
+}
